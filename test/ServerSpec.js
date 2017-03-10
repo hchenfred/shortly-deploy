@@ -21,8 +21,8 @@ describe('', function() {
 
         // Delete objects from db so they can be created later for the test
         Link.remove({url: 'http://www.roflzoo.com/'}).exec();
-        User.remove({username: 'Savannah'}).exec();
-        User.remove({username: 'Phillip'}).exec();
+        // User.remove({username: 'Savannah'}).exec();
+        // User.remove({username: 'Phillip'}).exec();
 
         done();
       });
@@ -61,6 +61,7 @@ describe('', function() {
             'url': 'http://www.roflzoo.com/'})
           .expect(200)
           .expect(function(res) {
+            console.log('hello=============');
             Link.findOne({'url': 'http://www.roflzoo.com/'})
               .exec(function(err, link) {
                 if (err) { console.log(err); }
@@ -79,6 +80,7 @@ describe('', function() {
           .expect(function(res) {
             Link.findOne({'url': 'http://www.roflzoo.com/'})
               .exec(function(err, link) {
+                console.log('link title is ', link.title);
                 if (err) { console.log(err); }
                 expect(link.title).to.equal('Funny pictures of animals, funny dog pictures');
               });
@@ -105,6 +107,8 @@ describe('', function() {
 
       it('Returns the same shortened code if attempted to add the same URL twice', function(done) {
         var firstCode = link.code;
+        console.log('***************222222', link.code);
+
         request(app)
           .post('/links')
           .send({
@@ -119,6 +123,7 @@ describe('', function() {
 
       it('Shortcode redirects to correct url', function(done) {
         var sha = link.code;
+        console.log('***************', link.code);
         request(app)
           .get('/' + sha)
           .expect(302)
