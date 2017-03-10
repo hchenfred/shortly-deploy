@@ -27,8 +27,6 @@ linkSchema.pre('save', function(next) {
   next();                                                                                                                                                                     
 });    
 
-
-
 var Link = mongoose.model('Link', linkSchema);
 console.log('link table is created');
 
